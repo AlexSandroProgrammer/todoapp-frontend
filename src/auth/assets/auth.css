@@ -31,7 +31,6 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  overflow: hidden;
 }
 
 /* ESTILOS DEL CONTENEDOR PRINCIPAL */
@@ -140,7 +139,7 @@ header {
   font-weight: 500;
   height: 50px;
   width: 100%;
-  padding: 0 10px 0 35px;
+  padding: 0 10px 0 20px;
   border: 1px solid transparent;
   border-radius: 30px;
   outline: none;
@@ -196,4 +195,9 @@ header {
 .two label a:hover {
   color: var(--bs-dark-primary);
   transition: 0.5s ease-in-out;
+}
+
+.two-fields-inputs {
+  display: flex;
+  gap: 10px;
 }

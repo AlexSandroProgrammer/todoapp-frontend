@@ -1,20 +1,32 @@
 import React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
-import { LoginPage } from "../auth/";
-import { CarPage } from "../car";
-import { ParkPage } from "../park";
+import { LoginPage, RegisterPage } from "../auth/";
+import {
+  IndexPage,
+  ListaCarros,
+  ListaParques,
+  RegisterCarPage,
+  RegisterParkPage,
+} from "../admin";
 
 export const AppRouter = () => {
-  const authState = "not-authenticated";
+  const authState = "authenticated";
   return (
     <Routes>
       {authState === "not-authenticated" ? (
-        <Route path="/auth/*" element={<LoginPage />} />
+        <>
+          <Route path="/auth/*" element={<LoginPage />} />
+          <Route path="/auth/register" element={<RegisterPage />} />
+        </>
       ) : (
-        <Routes path="/*">
-          <Route path="/car/*" element={<CarPage />} />
-          <Route path="/park/*" element={<ParkPage />} />
-        </Routes>
+        <>
+          <Route path="/" element={<IndexPage />} />
+
+          <Route path="/car" element={<ListaCarros />} />
+          <Route path="/car/register" element={<RegisterCarPage />} />
+          <Route path="/park/register" element={<RegisterParkPage />} />
+          <Route path="/park" element={<ListaParques />} />
+        </>
       )}
       <Route path="/*" element={<Navigate to={"/auth/login"} />} />
     </Routes>

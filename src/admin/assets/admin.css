@@ -1,0 +1,29 @@
+.navbar-brand {
+  font-weight: bold;
+  color: #fff;
+}
+.navbar-nav .nav-link {
+  font-weight: normal;
+  color: #fff;
+}
+
+.title {
+  font-weight: bold;
+  color: #fff;
+}
+.mr-2 {
+  margin: 0 10px 0px 0px;
+}
+
+.card {
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background-color: blue;
+  color: #fff;
+}
+
+.btn-danger:hover {
+  background-color: red;
+}

@@ -17,7 +17,9 @@ export const LoginPage = () => {
               <Link className="link active">Inicio de Sesion</Link>
             </li>
             <li>
-              <Link className="link">Registrarme</Link>
+              <Link className="link" to={"register"}>
+                Registrarme
+              </Link>
             </li>
           </ul>
         </div>
@@ -50,12 +52,13 @@ export const LoginPage = () => {
               required={true}
               placeholder="Ingresa tu contraseña"
             />
+
             <div className="input-box">
               <input type="submit" className="submit" value="Iniciar Sesion" />
             </div>
             <div className="two links-sm">
               <label htmlFor="">
-                <Link to={`/register`}>¿Quieres registrarte?</Link>
+                <Link to={`register`}>¿Quieres registrarte?</Link>
               </label>
             </div>
           </div>
