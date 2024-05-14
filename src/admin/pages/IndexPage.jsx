@@ -9,7 +9,7 @@ export const IndexPage = () => {
       <div className="container my-3">
         <h3>Pagina de Inicio Administrador</h3>
         <div className="row mt-4">
-          <div className="col-12 col-md-6 mb-4">
+          <div className="col-12 col-lg-6 mb-4">
             <div className="card bg-dark">
               <div className="card-body">
                 <h5 className="card-title">Gestion de Carros</h5>
@@ -23,7 +23,7 @@ export const IndexPage = () => {
               </div>
             </div>
           </div>
-          <div className="col-12 col-md-6 mb-4">
+          <div className="col-12 col-lg-6 mb-4">
             <div className="card bg-dark">
               <div className="card-body">
                 <h5 className="card-title">Gestion de Parques</h5>

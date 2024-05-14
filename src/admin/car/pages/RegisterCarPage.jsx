@@ -40,6 +40,7 @@ export const RegisterCarPage = () => {
               autoFocus
               type="text"
               name="registerPlaca"
+              placeholder="Ingresar placa del vehiculo"
               required={true}
               maxLength={6}
               minLength={6}
@@ -56,6 +57,7 @@ export const RegisterCarPage = () => {
             <input
               type="number"
               name="registerNumeroSerie"
+              placeholder="Ingresa numero de serie"
               value={registerNumeroSerie}
               maxLength={20}
               minLength={20}
@@ -71,6 +73,7 @@ export const RegisterCarPage = () => {
             <input
               type="number"
               name="registerModelo"
+              placeholder="Ingresar el modelo del vehiculo"
               value={registerModelo}
               maxLength={4}
               minLength={4}
@@ -87,6 +90,7 @@ export const RegisterCarPage = () => {
               type="text"
               name="registerMarca"
               value={registerMarca}
+              placeholder="Ingresa la marca del vehiculo"
               minLength={3}
               maxLength={20}
               onChange={onRegisterCarChange}
@@ -103,6 +107,7 @@ export const RegisterCarPage = () => {
               name="registerKilometraje"
               value={registerKilometraje}
               onChange={onRegisterCarChange}
+              placeholder="Ingresar kilometraje actual"
               className="form-control"
               id="kilometraje"
               minLength={1}
@@ -117,6 +122,7 @@ export const RegisterCarPage = () => {
               type="text"
               name="registerTipo"
               className="form-control"
+              placeholder="Ingresar tipo de vehiculo"
               value={registerTipo}
               minLength={2}
               maxLength={20}

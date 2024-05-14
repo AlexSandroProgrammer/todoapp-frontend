@@ -1,8 +1,40 @@
-import React from "react";
+import { useEffect } from "react";
 import "../assets/auth.css";
 import { Link } from "react-router-dom";
+import { useAuthStore, useForm } from "../../hooks";
+import Swal from "sweetalert2";
 
+const loginForm = {
+  loginEmail: "",
+  loginPassword: "",
+};
 export const LoginPage = () => {
+  // llamamos de las properties y de los methods que estamos generando desde nuestro custom hook
+  const { startLogin, errorMessage } = useAuthStore();
+
+  const {
+    loginPassword,
+    loginEmail,
+    onInputChange: onLoginInputChange,
+  } = useForm(loginForm);
+
+  // creamos la funcion para obtener los datos
+
+  const onSubmitLogin = (event) => {
+    event.preventDefault();
+    startLogin({ email: loginEmail, password: loginPassword });
+  };
+
+  useEffect(() => {
+    if (errorMessage !== undefined) {
+      Swal.fire({
+        icon: "error",
+        title: "Error Inicio de Sesion...",
+        text: errorMessage,
+      });
+    }
+  }, [errorMessage]);
+
   return (
     <div className="wrapper">
       <nav className="nav">
@@ -17,7 +49,7 @@ export const LoginPage = () => {
               <Link className="link active">Inicio de Sesion</Link>
             </li>
             <li>
-              <Link className="link" to={"register"}>
+              <Link className="link" to={"/auth/register"}>
                 Registrarme
               </Link>
             </li>
@@ -25,7 +57,7 @@ export const LoginPage = () => {
         </div>
       </nav>
 
-      <form action="" className="form-box">
+      <form onSubmit={onSubmitLogin} className="form-box">
         <div className="login-container" id="login">
           <div className="top">
             <header>Inicio de Sesion</header>
@@ -36,6 +68,8 @@ export const LoginPage = () => {
             <input
               type="email"
               name="loginEmail"
+              value={loginEmail}
+              onChange={onLoginInputChange}
               autoFocus
               maxLength={50}
               minLength={5}
@@ -46,6 +80,8 @@ export const LoginPage = () => {
             <input
               type="password"
               name="loginPassword"
+              value={loginPassword}
+              onChange={onLoginInputChange}
               maxLength={30}
               minLength={6}
               className="input-field"
@@ -56,9 +92,9 @@ export const LoginPage = () => {
             <div className="input-box">
               <input type="submit" className="submit" value="Iniciar Sesion" />
             </div>
-            <div className="two links-sm">
+            <div className="two links-sm text-center">
               <label htmlFor="">
-                <Link to={`register`}>¿Quieres registrarte?</Link>
+                <Link to={`/auth/register`}>¿Quieres registrarte?</Link>
               </label>
             </div>
           </div>

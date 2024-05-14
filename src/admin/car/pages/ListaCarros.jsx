@@ -16,6 +16,7 @@ export const ListaCarros = () => {
         <table className="table mt-4">
           <thead>
             <tr>
+              <th>Acciones</th>
               <th>ID</th>
               <th>Placa</th>
               <th>Numero de Serie</th>
@@ -27,6 +28,22 @@ export const ListaCarros = () => {
           </thead>
           <tbody>
             <tr>
+              <td>
+                <div
+                  className="btn-group"
+                  role="group"
+                  aria-label="Basic mixed styles example"
+                >
+                  <Link to={`/`} className="btn btn-success mr-2">
+                    Editar
+                  </Link>
+                  <form>
+                    <button type="submit" className="btn btn-danger">
+                      Eliminar
+                    </button>
+                  </form>
+                </div>
+              </td>
               <td>Informacion</td>
               <td>Informacion</td>
               <td>Informacion</td>

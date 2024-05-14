@@ -27,3 +27,7 @@
 .btn-danger:hover {
   background-color: red;
 }
+
+.btn-success:hover {
+  background-color: green;
+}
