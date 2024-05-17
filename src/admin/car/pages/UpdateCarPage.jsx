@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavBar } from "../../components";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useForm } from "../../../hooks";
 import { todoAppApi } from "../../../api";
 import Swal from "sweetalert2";
 
-const carRegisterForm = {
+const carUpdateForm = {
   registerNumeroSerie: "",
   registerPlaca: "",
   registerModelo: "",
@@ -13,9 +13,11 @@ const carRegisterForm = {
   registerMarca: "",
   registerTipo: "",
 };
-export const RegisterCarPage = () => {
+export const UpdateCarPage = () => {
+  const { id } = useParams();
   // estado para el manejo de los errores
   const navigate = useNavigate();
+  const [initialForm, setInitialForm] = useState(carUpdateForm);
   const {
     registerNumeroSerie,
     registerModelo,
@@ -24,34 +26,58 @@ export const RegisterCarPage = () => {
     registerTipo,
     registerKilometraje,
     onInputChange: onRegisterCarChange,
-  } = useForm(carRegisterForm);
+  } = useForm(initialForm);
 
-  const registerCar = async (e) => {
+  useEffect(() => {
+    const getCarById = async () => {
+      try {
+        const { data } = await todoAppApi.get(`/car/${id}`);
+        const { car } = data;
+        setInitialForm({
+          registerNumeroSerie: car.numero_serie,
+          registerPlaca: car.placa,
+          registerModelo: car.modelo,
+          registerKilometraje: car.kilometraje,
+          registerMarca: car.marca,
+          registerTipo: car.tipo,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getCarById();
+  }, [id]);
+
+  const updateCar = async (e) => {
     e.preventDefault();
+
+    // crear un objeto con solo los campos que no esten vacios
+    const updateFields = {};
+    if (registerPlaca) updateFields.placa = registerPlaca;
+    if (registerNumeroSerie) updateFields.numero_serie = registerNumeroSerie;
+    if (registerModelo) updateFields.modelo = registerModelo;
+    if (registerKilometraje) updateFields.kilometraje = registerKilometraje;
+    if (registerMarca) updateFields.marca = registerMarca;
+    if (registerTipo) updateFields.tipo = registerTipo;
+
     try {
-      await todoAppApi.post("/car/create", {
-        placa: registerPlaca,
-        numero_serie: registerNumeroSerie,
-        modelo: registerModelo,
-        kilometraje: registerKilometraje,
-        marca: registerMarca,
-        tipo: registerTipo,
-      });
+      await todoAppApi.put(`/car/${id}`, updateFields);
 
       Swal.fire({
         icon: "success",
-        title: "Carro Registrado",
-        text: "Carro Registrado Correctamente",
+        title: "Carro Actualizado",
+        text: "Los datos se han actualizado correctamente",
       }).then(() => {
         navigate("/car");
       });
     } catch (error) {
       const errorMessage =
         error.response?.data.message ||
-        "Error al momento de registrar el carro";
+        "Error al momento de actualizar el carro";
       Swal.fire({
         icon: "error",
-        title: "Error al momento de registrar el carro",
+        title: "Error al momento de actualizar el carro",
         text: errorMessage,
       });
     }
@@ -60,7 +86,7 @@ export const RegisterCarPage = () => {
     <div>
       <NavBar />
       <div className="container mt-4">
-        <form className="row" onSubmit={registerCar}>
+        <form className="row" onSubmit={updateCar}>
           <div className="mb-3">
             <h3>Registro de Carros</h3>
             <Link className="btn btn-danger" to={"/car"}>
@@ -167,7 +193,7 @@ export const RegisterCarPage = () => {
           </div>
           <div className="mb-3 col-3">
             <button type="submit" className="btn btn-primary">
-              Registrar Carro
+              Actualizar Carro
             </button>
           </div>
         </form>

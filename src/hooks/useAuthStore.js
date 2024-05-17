@@ -7,7 +7,6 @@ export const useAuthStore = () => {
   const { status, errorMessage, user } = useSelector((state) => state.auth);
   // llamar el metodo para hacer el despache de las acciones
   const dispatch = useDispatch();
-
   // creamos una funcion para iniciar sesion
   const startLogin = async ({ email, password }) => {
     dispatch(onChecking());
@@ -87,7 +86,6 @@ export const useAuthStore = () => {
         onLogin({ names: data.names, uid: data.uid, token: data.token })
       );
     } catch (error) {
-      localStorage.clear();
       dispatch(onLogout());
       setTimeout(() => {
         dispatch(clearErrorMessage());

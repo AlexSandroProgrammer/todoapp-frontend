@@ -7,20 +7,14 @@ import {
   ListaParques,
   RegisterCarPage,
   RegisterParkPage,
+  UpdateCarPage,
+  UpdateParkPage,
 } from "../admin";
 import { CheckingPage } from "../auth/404";
 import { useAuthStore } from "../hooks";
 
 export const AppRouter = () => {
   const { status, checkAuthToken } = useAuthStore();
-
-  useEffect(() => {
-    checkAuthToken();
-  }, []);
-
-  if (status === "checking") {
-    return <CheckingPage />;
-  }
 
   return (
     <Routes>
@@ -36,6 +30,9 @@ export const AppRouter = () => {
           <Route path="/" element={<IndexPage />} />
           <Route path="/car" element={<ListaCarros />} />
           <Route path="/car/register" element={<RegisterCarPage />} />
+          <Route path="/car/:id" element={<UpdateCarPage />} />
+          <Route path="/park/:id" element={<UpdateParkPage />} />
+
           <Route path="/park" element={<ListaParques />} />
           <Route path="/park/register" element={<RegisterParkPage />} />
         </>

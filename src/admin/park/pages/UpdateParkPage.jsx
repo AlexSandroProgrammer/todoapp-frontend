@@ -1,50 +1,73 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavBar } from "../../components";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useForm } from "../../../hooks";
 import { todoAppApi } from "../../../api";
 import Swal from "sweetalert2";
 
-const carRegisterForm = {
+const parkUpdateForm = {
   registerNombreParque: "",
   registerCapacidad: "",
   registerKilometraje: "",
   registerPrecioEntrada: "",
   registerDescripcion: "",
 };
-export const RegisterParkPage = () => {
+export const UpdateParkPage = () => {
+  const { id } = useParams();
+
   const navigate = useNavigate();
+  const [initialForm, setInitialForm] = useState(parkUpdateForm);
   const {
     registerNombreParque,
     registerCapacidad,
     registerPrecioEntrada,
     registerDescripcion,
     onInputChange: onRegisterParkChange,
-  } = useForm(carRegisterForm);
+  } = useForm(initialForm);
 
-  const registerPark = async (e) => {
+  useEffect(() => {
+    const getParkById = async () => {
+      try {
+        const { data } = await todoAppApi.get(`/park/${id}`);
+        const { parkSelect } = data;
+        setInitialForm({
+          registerNombreParque: parkSelect.nombre,
+          registerCapacidad: parkSelect.capacidad,
+          registerPrecioEntrada: parkSelect.precioEntrada,
+          registerDescripcion: parkSelect.descripcion,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getParkById();
+  }, []);
+
+  const updatePark = async (e) => {
     e.preventDefault();
+
+    const updateParkFields = {};
+    if (registerNombreParque) updateParkFields.nombre = registerNombreParque;
+    if (registerCapacidad) updateParkFields.capacidad = registerCapacidad;
+    if (registerPrecioEntrada)
+      updateParkFields.precioEntrada = registerPrecioEntrada;
+    if (registerDescripcion) updateParkFields.descripcion = registerDescripcion;
     try {
-      await todoAppApi.post("/park/register", {
-        nombre: registerNombreParque,
-        capacidad: registerCapacidad,
-        precioEntrada: registerPrecioEntrada,
-        descripcion: registerDescripcion,
-      });
+      await todoAppApi.put(`/park/${id}`, updateParkFields);
       Swal.fire({
         icon: "success",
-        title: "Parque Registrado",
-        text: "Parque Registrado Correctamente",
+        title: "Parque Actualizado",
+        text: "Parque Actualizado Correctamente",
       }).then(() => {
         navigate("/park");
       });
     } catch (error) {
       const errorMessage =
         error.response?.data.message ||
-        "Error al momento de registrar el parque";
+        "Error al momento de actualizar el parque";
       Swal.fire({
         icon: "error",
-        title: "Error al momento de registrar el parque",
+        title: "Error al momento de actualizar el parque",
         text: errorMessage,
       });
     }
@@ -53,9 +76,9 @@ export const RegisterParkPage = () => {
     <div>
       <NavBar />
       <div className="container mt-4">
-        <form className="row" onSubmit={registerPark}>
+        <form className="row" onSubmit={updatePark}>
           <div className="mb-3">
-            <h3>Registro de Parques</h3>
+            <h3>Actualizacion de Parque</h3>
             <Link className="btn btn-danger" to={"/park"}>
               Regresar
             </Link>
@@ -131,7 +154,7 @@ export const RegisterParkPage = () => {
 
           <div className="mb-3 col-3">
             <button type="submit" className="btn btn-primary">
-              Registrar Parque
+              Actualizar Parque
             </button>
           </div>
         </form>
